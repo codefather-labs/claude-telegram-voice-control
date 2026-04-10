@@ -2,68 +2,42 @@
 
 Telegram channel plugin for Claude Code with **local speech-to-text** via [whisper.cpp](https://github.com/ggerganov/whisper.cpp).
 
-Fork of the [official Telegram plugin](https://github.com/anthropics/claude-plugins-official/tree/main/external_plugins/telegram), extended with automatic voice message transcription using the Whisper medium model. Voice messages are transcribed locally — no external API calls.
+Based on the [official Telegram plugin](https://github.com/anthropics/claude-plugins-official/tree/main/external_plugins/telegram), extended with automatic voice message transcription using the Whisper medium model. Voice messages are transcribed locally — no external API calls, no data leaves the machine.
 
 ## Installation
 
-### 1. Register the marketplace
-
-Add to your Claude Code settings file (one time):
-
-- macOS / Linux: `~/.claude/settings.json`
-- Windows: `%USERPROFILE%\.claude\settings.json`
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "claude-telegram-voice-control": {
-      "source": {
-        "source": "github",
-        "repo": "codefather-labs/claude-telegram-voice-control"
-      }
-    }
-  }
-}
-```
-
-Then clone the marketplace so Claude Code can discover the plugin:
-
-```sh
-git clone --depth 1 https://github.com/codefather-labs/claude-telegram-voice-control.git ~/.claude/plugins/marketplaces/claude-telegram-voice-control
-```
-
-### 2. Install the plugin
-
-Run in Claude Code:
+Install the plugin in Claude Code:
 
 ```
-/plugin install telegram-voice@claude-telegram-voice-control
+/plugin install telegram-voice@<marketplace>
 /reload-plugins
 ```
 
-### 3. Create a Telegram bot
+## Setup
+
+### 1. Create a Telegram bot
 
 Open [@BotFather](https://t.me/BotFather), send `/newbot`, and copy the token (`123456789:AAH...`).
 
-### 4. Configure the bot token
+### 2. Configure the bot token
 
 ```
-/telegram:configure 123456789:AAHfiqksKZ8...
+/telegram-voice:configure 123456789:AAHfiqksKZ8...
 ```
 
-### 5. Launch with the channel
+### 3. Launch with the channel
 
 ```sh
-claude --channels plugin:telegram-voice@claude-telegram-voice-control
+claude --channels plugin:telegram-voice@<marketplace>
 ```
 
-### 6. Pair your Telegram account
+### 4. Pair your Telegram account
 
 DM your bot — it replies with a pairing code. In Claude Code:
 
 ```
-/telegram:access pair <code>
-/telegram:access policy allowlist
+/telegram-voice:access pair <code>
+/telegram-voice:access policy allowlist
 ```
 
 Done. Send a voice message to test transcription.
@@ -74,7 +48,7 @@ When a voice message arrives, the plugin:
 
 1. Downloads the audio from Telegram
 2. Converts OGA to WAV via ffmpeg
-3. Runs whisper-cli with the medium model
+3. Runs whisper-cli with the medium model (auto-detects language)
 4. Sends the transcribed text to Claude as `[voice transcription] ...`
 
 ### Auto-install
@@ -104,19 +78,21 @@ sudo apt-get install whisper-cpp ffmpeg
 winget install ggerganov.whisper-cpp Gyan.FFmpeg
 ```
 
+### Graceful Degradation
+
+If whisper-cli, ffmpeg, or the model are unavailable, the plugin falls back to the existing `(voice message)` behavior. Zero breakage for users who don't need voice transcription.
+
 ### Configuration
 
 Override paths via environment variables in `~/.claude/channels/telegram/.env`:
 
-```
-WHISPER_CLI_PATH=/path/to/whisper-cli
-FFMPEG_PATH=/path/to/ffmpeg
-WHISPER_MODEL_PATH=/path/to/ggml-medium.bin
-WHISPER_MODEL_NAME=ggml-medium.bin
-WHISPER_MODEL_URL=https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-medium.bin
-```
-
-If whisper-cli or ffmpeg are not available, the plugin gracefully degrades — voice messages are forwarded as `(voice message)` without transcription.
+| Variable | Default |
+|----------|---------|
+| `WHISPER_CLI_PATH` | auto-detected |
+| `FFMPEG_PATH` | auto-detected |
+| `WHISPER_MODEL_PATH` | `~/.local/share/whisper-cpp/models/ggml-medium.bin` |
+| `WHISPER_MODEL_NAME` | `ggml-medium.bin` |
+| `WHISPER_MODEL_URL` | HuggingFace CDN |
 
 ## Prerequisites
 

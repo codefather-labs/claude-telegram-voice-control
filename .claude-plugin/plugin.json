@@ -2,5 +2,11 @@
   "name": "telegram-voice",
   "description": "Telegram channel for Claude Code with local Whisper voice transcription. Cross-platform auto-install of whisper-cpp and ffmpeg.",
   "version": "0.1.0",
-  "keywords": ["telegram", "voice", "whisper", "transcription", "channel", "mcp"]
+  "keywords": ["telegram", "voice", "whisper", "transcription", "channel", "mcp"],
+  "author": {
+    "name": "codefather-labs"
+  },
+  "homepage": "https://github.com/codefather-labs/claude-telegram-voice-control",
+  "repository": "https://github.com/codefather-labs/claude-telegram-voice-control",
+  "license": "Apache-2.0"
 }

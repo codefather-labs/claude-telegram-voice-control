@@ -958,7 +958,6 @@ function findPkgManager(): { name: string; path: string } | null {
     if (p) return { name: 'brew', path: p }
     return null
   }
-  // Linux — try apt, then dnf, then pacman
   for (const name of ['apt-get', 'dnf', 'pacman']) {
     const p = findBinary(name)
     if (p) return { name, path: p }
@@ -1080,7 +1079,6 @@ async function ensureWhisper(): Promise<boolean> {
     try {
       mkdirSync(WHISPER_MODEL_DIR, { recursive: true })
       const partPath = `${WHISPER_MODEL}.part`
-      // Use fetch (cross-platform, no curl dependency on Windows)
       const res = await fetch(WHISPER_MODEL_URL, { redirect: 'follow' })
       if (!res.ok || !res.body) {
         process.stderr.write(`telegram channel: model download failed: HTTP ${res.status}\n`)
