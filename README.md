@@ -4,42 +4,56 @@ Telegram channel plugin for Claude Code with **local speech-to-text** via [whisp
 
 Fork of the [official Telegram plugin](https://github.com/anthropics/claude-plugins-official/tree/main/external_plugins/telegram), extended with automatic voice message transcription using the Whisper medium model. Voice messages are transcribed locally — no external API calls.
 
-## Quick Setup
+## Installation
 
-**1. Create a bot with BotFather.**
+### 1. Register the marketplace
 
-Open [@BotFather](https://t.me/BotFather) on Telegram, send `/newbot`, and copy the token (`123456789:AAH...`).
+Add to `~/.claude/settings.json` (one time):
 
-**2. Install the plugin.**
+```json
+{
+  "extraKnownMarketplaces": {
+    "claude-telegram-voice-control": {
+      "source": {
+        "source": "github",
+        "repo": "codefather-labs/claude-telegram-voice-control"
+      }
+    }
+  }
+}
+```
+
+### 2. Install the plugin
+
+Run in Claude Code:
 
 ```
 /plugin install telegram@claude-telegram-voice-control
 /reload-plugins
 ```
 
-**3. Configure the bot token.**
+### 3. Create a Telegram bot
+
+Open [@BotFather](https://t.me/BotFather), send `/newbot`, and copy the token (`123456789:AAH...`).
+
+### 4. Configure the bot token
 
 ```
 /telegram:configure 123456789:AAHfiqksKZ8...
 ```
 
-**4. Relaunch with the channel flag.**
+### 5. Launch with the channel
 
 ```sh
 claude --channels plugin:telegram@claude-telegram-voice-control
 ```
 
-**5. Pair.**
+### 6. Pair your Telegram account
 
-DM your bot on Telegram — it replies with a pairing code. In Claude Code:
+DM your bot — it replies with a pairing code. In Claude Code:
 
 ```
 /telegram:access pair <code>
-```
-
-**6. Lock it down.**
-
-```
 /telegram:access policy allowlist
 ```
 
@@ -50,13 +64,13 @@ Done. Send a voice message to test transcription.
 When a voice message arrives, the plugin:
 
 1. Downloads the audio from Telegram
-2. Converts OGA → WAV via ffmpeg
+2. Converts OGA to WAV via ffmpeg
 3. Runs whisper-cli with the medium model
 4. Sends the transcribed text to Claude as `[voice transcription] ...`
 
 ### Auto-install
 
-On first voice message, the plugin automatically installs missing dependencies:
+On first voice message, the plugin automatically installs missing dependencies via the detected package manager:
 
 | Platform | Package manager | What gets installed |
 |----------|----------------|---------------------|
