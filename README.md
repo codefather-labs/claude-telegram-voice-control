@@ -6,38 +6,100 @@ Based on the [official Telegram plugin](https://github.com/anthropics/claude-plu
 
 ## Installation
 
-Install the plugin in Claude Code:
+This is a community plugin, not part of the official marketplace. There are two ways to install it:
+
+### Option A: Local development mode (recommended for testing)
+
+Clone the repository and load it directly:
+
+```bash
+git clone https://github.com/codefather-labs/claude-telegram-voice-control.git
+cd claude-telegram-voice-control
+bun install
+```
+
+Then start Claude Code with the plugin loaded from the local directory:
+
+```bash
+claude --plugin-dir ./claude-telegram-voice-control
+```
+
+Skills will be available as `/telegram-voice:configure` and `/telegram-voice:access`.
+
+To use the Telegram channel, add the development channels flag:
+
+```bash
+claude --plugin-dir ./claude-telegram-voice-control --channels plugin:telegram-voice --dangerously-load-development-channels plugin:telegram-voice
+```
+
+### Option B: Fork-based installation (persistent)
+
+This method replaces the official Telegram plugin source with the whisper-enabled fork. The plugin registers as `telegram@claude-plugins-official`, so Telegram channels work without the development flag.
+
+**Step 1.** Edit `~/.claude/plugins/known_marketplaces.json` (create it if it doesn't exist):
+
+- macOS / Linux: `~/.claude/plugins/known_marketplaces.json`
+- Windows: `%USERPROFILE%\.claude\plugins\known_marketplaces.json`
+
+```json
+{
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "codefather-labs/claude-plugins-official"
+    },
+    "installLocation": "<HOME>/.claude/plugins/marketplaces/claude-plugins-official",
+    "lastUpdated": "2026-01-01T00:00:00.000Z"
+  }
+}
+```
+
+Replace `<HOME>` with your home directory path (e.g., `/Users/yourname` on macOS, `/home/yourname` on Linux, `C:\Users\yourname` on Windows).
+
+**Step 2.** Clone the fork into the marketplaces directory:
+
+```bash
+git clone --depth 1 https://github.com/codefather-labs/claude-plugins-official.git ~/.claude/plugins/marketplaces/claude-plugins-official
+```
+
+**Step 3.** Install and enable the plugin in Claude Code:
 
 ```
-/plugin install telegram-voice@<marketplace>
+/plugin install telegram@claude-plugins-official
 /reload-plugins
 ```
+
+**Step 4.** Launch with the channel:
+
+```bash
+claude --channels plugin:telegram@claude-plugins-official
+```
+
+> **Note:** This replaces the official marketplace source. To revert, delete `~/.claude/plugins/known_marketplaces.json` and `~/.claude/plugins/marketplaces/claude-plugins-official/`, then reinstall the official plugin.
 
 ## Setup
 
 ### 1. Create a Telegram bot
 
-Open [@BotFather](https://t.me/BotFather), send `/newbot`, and copy the token (`123456789:AAH...`).
+Open [@BotFather](https://t.me/BotFather) on Telegram, send `/newbot`, and copy the token (`123456789:AAH...`).
 
 ### 2. Configure the bot token
 
-```
-/telegram-voice:configure 123456789:AAHfiqksKZ8...
-```
-
-### 3. Launch with the channel
-
-```sh
-claude --channels plugin:telegram-voice@<marketplace>
-```
-
-### 4. Pair your Telegram account
-
-DM your bot — it replies with a pairing code. In Claude Code:
+In Claude Code:
 
 ```
-/telegram-voice:access pair <code>
-/telegram-voice:access policy allowlist
+/telegram:configure 123456789:AAHfiqksKZ8...
+```
+
+(If using Option A, the skill name is `/telegram-voice:configure` instead.)
+
+### 3. Pair your Telegram account
+
+DM your bot on Telegram — it replies with a pairing code. In Claude Code:
+
+```
+/telegram:access pair <code>
+/telegram:access policy allowlist
 ```
 
 Done. Send a voice message to test transcription.
