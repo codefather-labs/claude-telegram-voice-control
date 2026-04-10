@@ -8,7 +8,10 @@ Fork of the [official Telegram plugin](https://github.com/anthropics/claude-plug
 
 ### 1. Register the marketplace
 
-Add to `~/.claude/settings.json` (one time):
+Add to your Claude Code settings file (one time):
+
+- macOS / Linux: `~/.claude/settings.json`
+- Windows: `%USERPROFILE%\.claude\settings.json`
 
 ```json
 {
