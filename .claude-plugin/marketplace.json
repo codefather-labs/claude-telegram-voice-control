@@ -10,7 +10,7 @@
       "name": "telegram-voice",
       "description": "Telegram channel with Whisper voice transcription",
       "category": "productivity",
-      "source": "."
+      "source": "./"
     }
   ]
 }
