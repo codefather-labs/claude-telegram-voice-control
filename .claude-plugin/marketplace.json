@@ -10,7 +10,10 @@
       "name": "telegram-voice",
       "description": "Telegram channel with Whisper voice transcription",
       "category": "productivity",
-      "source": "./"
+      "source": {
+        "source": "github",
+        "repo": "codefather-labs/claude-telegram-voice-control"
+      }
     }
   ]
 }
