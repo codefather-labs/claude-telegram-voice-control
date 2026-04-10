@@ -11,8 +11,9 @@
       "description": "Telegram channel with Whisper voice transcription",
       "category": "productivity",
       "source": {
-        "source": "github",
-        "repo": "codefather-labs/claude-telegram-voice-control"
+        "source": "url",
+        "url": "https://github.com/codefather-labs/claude-telegram-voice-control.git",
+        "sha": "9c261c22ec2ad4bfe259bc180a328a85a97457aa"
       }
     }
   ]
