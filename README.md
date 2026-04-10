@@ -26,6 +26,12 @@ Add to your Claude Code settings file (one time):
 }
 ```
 
+Then clone the marketplace so Claude Code can discover the plugin:
+
+```sh
+git clone --depth 1 https://github.com/codefather-labs/claude-telegram-voice-control.git ~/.claude/plugins/marketplaces/claude-telegram-voice-control
+```
+
 ### 2. Install the plugin
 
 Run in Claude Code:
