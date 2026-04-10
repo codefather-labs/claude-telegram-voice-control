@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-telegram-voice-control",
+  "description": "Telegram channel plugin with local Whisper AI voice transcription for Claude Code",
+  "owner": {
+    "name": "codefather-labs"
+  },
+  "plugins": [
+    {
+      "name": "telegram",
+      "description": "Telegram channel with Whisper voice transcription",
+      "category": "productivity",
+      "source": "."
+    }
+  ]
+}
