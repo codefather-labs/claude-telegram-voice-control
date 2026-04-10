@@ -1,5 +1,5 @@
 {
-  "name": "telegram",
+  "name": "telegram-voice",
   "description": "Telegram channel for Claude Code with local Whisper voice transcription. Cross-platform auto-install of whisper-cpp and ffmpeg.",
   "version": "0.1.0",
   "keywords": ["telegram", "voice", "whisper", "transcription", "channel", "mcp"]

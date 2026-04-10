@@ -31,7 +31,7 @@ Add to your Claude Code settings file (one time):
 Run in Claude Code:
 
 ```
-/plugin install telegram@claude-telegram-voice-control
+/plugin install telegram-voice@claude-telegram-voice-control
 /reload-plugins
 ```
 
@@ -48,7 +48,7 @@ Open [@BotFather](https://t.me/BotFather), send `/newbot`, and copy the token (`
 ### 5. Launch with the channel
 
 ```sh
-claude --channels plugin:telegram@claude-telegram-voice-control
+claude --channels plugin:telegram-voice@claude-telegram-voice-control
 ```
 
 ### 6. Pair your Telegram account
